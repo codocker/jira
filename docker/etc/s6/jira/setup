@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# 判断是否是安全连接
+if [ "${PROXY_SCHEME}" == "https" ] || [ "${PROXY_SCHEME}" == "HTTPS" ] || [ "${PROXY_SCHEME}" == "Https" ]; then
+  export secure="true"
+else
+  export secure="false"
+fi
+
+JAVA_OPTS="${JAVA_OPTS} -Dproxy.name=${PROXY_DOMAIN} -Dproxy.port=${PROXY_PORT} -Dproxy.secure=${secure} -Dproxy.scheme=${PROXY_SCHEME} -Dcontext.path=${CONTEXT_PATH}"
+
+
+# 将主目录所有者改成系统创建的用户
+permissionFile=/config/.permission.lock
+if [ "${SET_PERMISSIONS}" == true ] && [ ! -f "${permissionFile}" ]; then
+  chown -R "${USERNAME}":"${USERNAME}" "${JIRA_HOME}"
+
+  if [ ! -f "${permissionFile}" ]; then
+    gosu "${USERNAME}" touch "${permissionFile}"
+  fi
+fi
