@@ -38,7 +38,7 @@ sudo docker exec -it Bitbucket /bin/bash
 #### 执行Agent
 
 ```shell
-keygen -p jira -m xxx@xxx.com -n xxx -o https://xxx.com -s ABCD-CFDS-JJFF-LLKD -d
+keygen jira -s ABCD-CFDS-JJFF-LLKD -d
 ```
 
 复制序列号到系统，下一步就可以了

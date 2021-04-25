@@ -7,11 +7,18 @@ else
   export secure="false"
 fi
 
-JAVA_OPTS="${JAVA_OPTS} -Dproxy.name=${PROXY_DOMAIN} -Dproxy.port=${PROXY_PORT} -Dproxy.secure=${secure} -Dproxy.scheme=${PROXY_SCHEME} -Dcontext.path=${CONTEXT_PATH}"
+CATALINA_OPTS="${CATALINA_OPTS} -Dproxy.name=${PROXY_DOMAIN} -Dproxy.port=${PROXY_PORT} -Dproxy.secure=${secure} -Dproxy.scheme=${PROXY_SCHEME} -Dcontext.path=${CONTEXT_PATH}"
+
+
+# 将默认的数据库配置文件移动到主目录，原因是MySQL8有一个SSL连接的Bug，如果不使用MySQL8可以手动删除dbconfig.xml文件
+dbConfigFile=${JIRA_HOME}/dbconfig.xml
+if [ ! -f "${dbConfigFile}" ]; then
+  gosu "${USERNAME}" cp /opt/atlassian/jira/dbconfig.xml "${dbConfigFile}"
+fi
 
 
 # 将主目录所有者改成系统创建的用户
-permissionFile=/config/.permission.lock
+permissionFile=${JIRA_HOME}/.permission.lock
 if [ "${SET_PERMISSIONS}" == true ] && [ ! -f "${permissionFile}" ]; then
   chown -R "${USERNAME}":"${USERNAME}" "${JIRA_HOME}"
 
