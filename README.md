@@ -38,7 +38,7 @@ sudo docker exec -it Jira /bin/bash
 #### 执行Agent
 
 ```shell
-keygen jira -s ABCD-CFDS-JJFF-LLKD -d
+keygen jira -s ABCD-CFDS-JJFF-LLKD
 ```
 
 复制序列号到系统，下一步就可以了
