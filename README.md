@@ -32,7 +32,7 @@ sudo docker pull storezhang/jira && sudo docker run \
 #### 进入容器
 
 ```shell
-sudo docker exec -it Bitbucket /bin/bash
+sudo docker exec -it Jira /bin/bash
 ```
 
 #### 执行Agent
