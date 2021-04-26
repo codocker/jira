@@ -11,9 +11,9 @@ WORKDIR /opt/atlassian
 RUN apt update && apt install -y axel curl
 
 # 安装Bitbucket
-RUN axel --num-connections 64 --insecure --output jira${VERSION}.tar.gz "https://product-downloads.atlassian.com/software/jira/downloads/atlassian-jira-software-${VERSION}.tar.gz"
+RUN axel --num-connections 64 --insecure --output jira${VERSION}.tar.gz "https://product-downloads.atlassian.com/software/jira/downloads/atlassian-jira-core-${VERSION}.tar.gz"
 RUN tar -xzf jira${VERSION}.tar.gz
-RUN mv atlassian-jira-software-${VERSION}-standalone jira
+RUN mv atlassian-jira-core-${VERSION}-standalone jira
 
 
 
