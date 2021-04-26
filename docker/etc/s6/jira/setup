@@ -21,6 +21,7 @@ fi
 permissionFile=${JIRA_HOME}/.permission.lock
 if [ "${SET_PERMISSIONS}" == true ] && [ ! -f "${permissionFile}" ]; then
   chown -R "${USERNAME}":"${USERNAME}" "${JIRA_HOME}"
+  chmod -R u=rwx,go-rwx "${JIRA_HOME}"
 
   if [ ! -f "${permissionFile}" ]; then
     gosu "${USERNAME}" touch "${permissionFile}"

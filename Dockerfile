@@ -15,6 +15,10 @@ RUN axel --num-connections 64 --insecure --output jira${VERSION}.tar.gz "https:/
 RUN tar -xzf jira${VERSION}.tar.gz
 RUN mv atlassian-jira-software-${VERSION}-standalone jira
 
+# 修改目录权限，后期Jira运行会检查权限设置
+RUN chown -R ${USERNAME} jira
+RUN chmod -R u=rwx,go-rwx jira
+
 
 
 
