@@ -31,7 +31,9 @@ LABEL Description="Atlassian公司产品Jira，一个非常好的敏捷开发系
 
 
 # 设置Jira主目录
-ENV JIRA_HOME /config
+ENV CONFIG_HOME /config
+ENV JIRA_HOME ${CONFIG_HOME}/home
+ENV CATALINA_BASE ${CONFIG_HOME}/catalina
 ENV CATALINA_OPTS ""
 
 

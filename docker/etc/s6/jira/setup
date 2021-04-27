@@ -1,21 +1,43 @@
 #!/bin/sh
 
+# 创建主目录
+if [ ! -d "${JIRA_HOME}" ]; then
+  gosu "${USERNAME}" mkdir "${JIRA_HOME}"
+fi
+
+# 创建Tomcat基础目录
+if [ ! -d "${CATALINA_BASE}" ]; then
+  gosu "${USERNAME}" mkdir "${CATALINA_BASE}"
+  gosu "${USERNAME}" cp -r /opt/atlassian/jira/conf "${CATALINA_BASE}"
+  gosu "${USERNAME}" cp -r /opt/atlassian/jira/logs "${CATALINA_BASE}"
+  gosu "${USERNAME}" cp -r /opt/atlassian/jira/webapps "${CATALINA_BASE}"
+  gosu "${USERNAME}" cp -r /opt/atlassian/jira/work "${CATALINA_BASE}"
+fi
+
+
 # 判断是否是安全连接
-if [ "${PROXY_SCHEME}" == "https" ] || [ "${PROXY_SCHEME}" == "HTTPS" ] || [ "${PROXY_SCHEME}" == "Https" ]; then
+if [ "${PROXY_SCHEME}" = "https" ] || [ "${PROXY_SCHEME}" = "HTTPS" ] || [ "${PROXY_SCHEME}" = "Https" ]; then
   export secure="true"
 else
   export secure="false"
 fi
 
-CATALINA_OPTS="${CATALINA_OPTS} -Dproxy.name=${PROXY_DOMAIN} -Dproxy.port=${PROXY_PORT} -Dproxy.secure=${secure} -Dproxy.scheme=${PROXY_SCHEME} -Dcontext.path=${CONTEXT_PATH}"
+CATALINA_OPTS="${CATALINA_OPTS} -Dproxy.name=${PROXY_DOMAIN}"
+CATALINA_OPTS="${CATALINA_OPTS} -Dproxy.port=${PROXY_PORT}"
+CATALINA_OPTS="${CATALINA_OPTS} -Dproxy.secure=${secure}"
+CATALINA_OPTS="${CATALINA_OPTS} -Dproxy.scheme=${PROXY_SCHEME}"
+CATALINA_OPTS="${CATALINA_OPTS} -Dcontext.path=${CONTEXT_PATH}"
+CATALINA_OPTS="${CATALINA_OPTS} -Dcatalina.base=${CATALINA_BASE}"
 
 
 
 # 将主目录所有者改成系统创建的用户
-permissionFile=${JIRA_HOME}/.permission.lock
-if [ "${SET_PERMISSIONS}" == true ] && [ ! -f "${permissionFile}" ]; then
+permissionFile=${CONFIG_HOME}/.permission.lock
+if [ "${SET_PERMISSIONS}" = true ] && [ ! -f "${permissionFile}" ]; then
   chown -R "${USERNAME}":"${USERNAME}" "${JIRA_HOME}"
   chmod -R u=rwx,go-rwx "${JIRA_HOME}"
+
+  chown -R "${USERNAME}":"${USERNAME}" "${CATALINA_BASE}"
 
   if [ ! -f "${permissionFile}" ]; then
     gosu "${USERNAME}" touch "${permissionFile}"
