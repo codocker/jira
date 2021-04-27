@@ -59,6 +59,7 @@ RUN set -ex \
     # 修改目录权限，后期Jira运行会检查权限设置
     && chown -R ${USERNAME} /opt/atlassian/jira \
     && chmod -R u=rwx,go-rwx /opt/atlassian/jira \
+    && chmod +x /opt/atlassian/jira/bin/*.sh \
     \
     \
     \
