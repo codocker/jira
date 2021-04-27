@@ -14,6 +14,7 @@ RUN apt update && apt install -y axel curl
 RUN axel --num-connections 64 --insecure --output jira${VERSION}.tar.gz "https://product-downloads.atlassian.com/software/jira/downloads/atlassian-jira-core-${VERSION}.tar.gz"
 RUN tar -xzf jira${VERSION}.tar.gz
 RUN mv atlassian-jira-core-${VERSION}-standalone jira
+RUN chmod -R a=rwx jira
 
 
 
@@ -56,10 +57,6 @@ RUN set -ex \
     \
     # 安装JIRA并增加执行权限
     && chmod +x /etc/s6/jira/* \
-    # 修改目录权限，后期Jira运行会检查权限设置
-    && chown -R ${USERNAME} /opt/atlassian/jira \
-    && chmod -R u=rwx,go-rwx /opt/atlassian/jira \
-    && chmod +x /opt/atlassian/jira/bin/*.sh \
     \
     \
     \
