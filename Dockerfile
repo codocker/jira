@@ -56,6 +56,7 @@ RUN set -ex \
     \
     # 安装JIRA并增加执行权限
     && chmod +x /etc/s6/jira/* \
+    && chmod +x /opt/atlassian/jira/bin/*.sh \
     # 修改目录权限，后期Jira运行会检查权限设置
     && chown -R ${USERNAME} /opt/atlassian/jira \
     && chmod -R u=rwx,go-rwx /opt/atlassian/jira \
