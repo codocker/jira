@@ -1,4 +1,4 @@
-FROM storezhang/ubuntu AS builder
+FROM ubuntu AS builder
 
 
 # 版本
