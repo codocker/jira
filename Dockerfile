@@ -8,7 +8,7 @@ ENV VERSION 8.16.1
 WORKDIR /opt/atlassian
 
 
-RUN apt update && apt install -y axel curl
+RUN apt update && apt install -y axel
 
 # 安装Bitbucket
 RUN axel --num-connections 64 --insecure --output jira${VERSION}.tar.gz "https://product-downloads.atlassian.com/software/jira/downloads/atlassian-jira-software-${VERSION}.tar.gz"
@@ -18,6 +18,8 @@ RUN mv atlassian-jira-software-${VERSION}-standalone jira
 # 删除不需要的文件
 RUN rm -rf jira/bin/*.bat
 RUN rm -rf jira/atlassian-jira/WEB-INF/atlassian-bundled-plugins/jira-migration-plugin*.jar
+RUN rm -rf jira/atlassian-jira/WEB-INF/application-installation/jira-software-application/*portfolio*.jar
+RUN rm -rf jira/atlassian-jira/WEB-INF/application-installation/jira-software-application/querydsl*.jar
 
 
 
