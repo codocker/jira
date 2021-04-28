@@ -110,7 +110,7 @@
 
             </Host>
             <Valve className="org.apache.catalina.valves.AccessLogValve"
-                   directory="${jira.home}/log"
+                   directory="${jira.home}/log" prefix="access" suffix=".log"
                    pattern="%a %{jira.request.id}r %{jira.request.username}r %t &quot;%m %U%{sanitized.query}r %H&quot; %s %b %D &quot;%{sanitized.referer}r&quot; &quot;%{User-Agent}i&quot; &quot;%{jira.request.assession.id}r&quot;"/>
         </Engine>
     </Service>
