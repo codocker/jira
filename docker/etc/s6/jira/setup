@@ -3,15 +3,9 @@
 # 创建主目录
 if [ ! -d "${JIRA_HOME}" ]; then
   gosu "${USERNAME}" mkdir "${JIRA_HOME}"
-fi
 
-# 创建Tomcat基础目录
-if [ ! -d "${CATALINA_BASE}" ]; then
-  gosu "${USERNAME}" mkdir "${CATALINA_BASE}"
-  gosu "${USERNAME}" cp -r /opt/atlassian/jira/conf "${CATALINA_BASE}"
-  gosu "${USERNAME}" cp -r /opt/atlassian/jira/logs "${CATALINA_BASE}"
-  gosu "${USERNAME}" cp -r /opt/atlassian/jira/webapps "${CATALINA_BASE}"
-  gosu "${USERNAME}" cp -r /opt/atlassian/jira/work "${CATALINA_BASE}"
+  # 创建工作目录
+  gosu "${USERNAME}" mkdir "${JIRA_HOME}/work"
 fi
 
 
@@ -22,17 +16,18 @@ else
   export secure="false"
 fi
 
+# 注入反代参数以及日志主目录
 CATALINA_OPTS="${CATALINA_OPTS} -Dproxy.name=${PROXY_DOMAIN}"
 CATALINA_OPTS="${CATALINA_OPTS} -Dproxy.port=${PROXY_PORT}"
 CATALINA_OPTS="${CATALINA_OPTS} -Dproxy.secure=${secure}"
 CATALINA_OPTS="${CATALINA_OPTS} -Dproxy.scheme=${PROXY_SCHEME}"
 CATALINA_OPTS="${CATALINA_OPTS} -Dcontext.path=${CONTEXT_PATH}"
-CATALINA_OPTS="${CATALINA_OPTS} -Dcatalina.base=${CATALINA_BASE}"
+CATALINA_OPTS="${CATALINA_OPTS} -Djira.home=${JIRA_HOME}"
 
 
 
 # 将主目录所有者改成系统创建的用户
-permissionFile=${CONFIG_HOME}/.permission.lock
+permissionFile=${JIRA_HOME}/.permission.lock
 if [ "${SET_PERMISSIONS}" = true ] && [ ! -f "${permissionFile}" ]; then
   chown -R "${USERNAME}":"${USERNAME}" "${JIRA_HOME}"
   chmod -R u=rwx,go-rwx "${JIRA_HOME}"

@@ -98,7 +98,7 @@
         -->
 
         <Engine name="Catalina" defaultHost="localhost">
-            <Host name="localhost" appBase="webapps" unpackWARs="true" autoDeploy="true">
+            <Host name="localhost" appBase="webapps" unpackWARs="true" autoDeploy="true" workDir="${jira.home}/work">
 
                 <Context path="${context.path}" docBase="${catalina.home}/atlassian-jira" reloadable="false" useHttpOnly="true">
                     <Resource name="UserTransaction" auth="Container" type="javax.transaction.UserTransaction"
@@ -110,6 +110,7 @@
 
             </Host>
             <Valve className="org.apache.catalina.valves.AccessLogValve"
+                   directory="${jira.home}/log"
                    pattern="%a %{jira.request.id}r %{jira.request.username}r %t &quot;%m %U%{sanitized.query}r %H&quot; %s %b %D &quot;%{sanitized.referer}r&quot; &quot;%{User-Agent}i&quot; &quot;%{jira.request.assession.id}r&quot;"/>
         </Engine>
     </Service>

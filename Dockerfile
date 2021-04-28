@@ -11,10 +11,10 @@ WORKDIR /opt/atlassian
 RUN apt update && apt install -y axel curl
 
 # 安装Bitbucket
-RUN axel --num-connections 64 --insecure --output jira${VERSION}.tar.gz "https://product-downloads.atlassian.com/software/jira/downloads/atlassian-jira-core-${VERSION}.tar.gz"
+RUN axel --num-connections 64 --insecure --output jira${VERSION}.tar.gz "https://product-downloads.atlassian.com/software/jira/downloads/atlassian-jira-software-${VERSION}.tar.gz"
 RUN tar -xzf jira${VERSION}.tar.gz
-RUN mv atlassian-jira-core-${VERSION}-standalone jira
-RUN chmod -R a=rwx jira
+RUN mv atlassian-jira-software-${VERSION}-standalone jira
+RUN rm -rf jira/bin/*.bat
 
 
 
@@ -26,15 +26,16 @@ FROM storezhang/atlassian
 
 
 MAINTAINER storezhang "storezhang@gmail.com"
-LABEL architecture="AMD64/x86_64" version="latest" build="2021-04-23"
+LABEL architecture="AMD64/x86_64" version="latest" build="2021-04-28"
 LABEL Description="Atlassian公司产品Jira，一个非常好的敏捷开发系统。在原来的基础上增加了MySQL/MariaDB驱动以及太了解程序。"
 
 
 
 # 设置Jira主目录
-ENV CONFIG_HOME /config
-ENV JIRA_HOME ${CONFIG_HOME}/home
-ENV CATALINA_BASE ${CONFIG_HOME}/catalina
+ENV JIRA_HOME /config
+ENV CATALINA_TMPDIR ${JIRA_HOME}/tmp
+ENV CATALINA_OUT ${JIRA_HOME}/log/catalina.out
+ENV CATALINA_OUT_CMD "cronolog ${JIRA_HOME}/log/catalina.%Y-%m-%d.out"
 ENV CATALINA_OPTS ""
 
 
@@ -55,6 +56,10 @@ RUN set -ex \
     \
     \
     \
+    # 安装cronolog，转接catalina.out日志到Jira主目录
+    && apt update -y \
+    && apt upgrade -y \
+    && apt install cronolog -y \
     # 安装JIRA并增加执行权限
     && chmod +x /etc/s6/jira/* \
     \
