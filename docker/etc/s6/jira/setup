@@ -36,7 +36,7 @@ if [ ! -f "${dbConfigFile}" ]; then
     dbUrl="jdbc:mysql://address=(protocol=tcp)(host=${DB_HOST})(port=${DB_PORT})/${DB_NAME}?sessionVariables=default_storage_engine=InnoDB"
   elif [ "${DB_TYPE}" = "mysql8" ]; then
     dbDriver="com.mysql.cj.jdbc.Driver"
-    dbUrl="jdbc:mysql://address=(protocol=tcp)(host=${DB_HOST})(port=${DB_PORT})/${DB_NAME}?sessionVariables=default_storage_engine=InnoDB&amp;useSSL=false"
+    dbUrl="jdbc:mysql://address=(protocol=tcp)(host=${DB_HOST})(port=${DB_PORT})/${DB_NAME}?sessionVariables=default_storage_engine=InnoDB&useSSL=false"
   fi
 
   gosu "${USERNAME}" cat>"${dbConfigFile}"<<EOF
