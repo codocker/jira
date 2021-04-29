@@ -26,6 +26,14 @@ CATALINA_OPTS="${CATALINA_OPTS} -Djira.home=${JIRA_HOME}"
 
 
 
+# 将默认的数据库配置文件移动到主目录
+dbConfigFile=${JIRA_HOME}/dbconfig.xml
+if [ ! -f "${dbConfigFile}" ]; then
+  gosu "${USERNAME}" cp /opt/atlassian/jira/dbconfig.xml "${dbConfigFile}"
+fi
+
+
+
 # 将主目录所有者改成系统创建的用户
 permissionFile=${JIRA_HOME}/.permission.lock
 if [ "${SET_PERMISSIONS}" = true ] && [ ! -f "${permissionFile}" ]; then
