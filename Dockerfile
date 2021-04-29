@@ -20,6 +20,8 @@ RUN rm -rf jira/bin/*.bat
 RUN rm -rf jira/atlassian-jira/WEB-INF/atlassian-bundled-plugins/jira-migration-plugin*.jar
 RUN rm -rf jira/atlassian-jira/WEB-INF/application-installation/jira-software-application/*portfolio*.jar
 RUN rm -rf jira/atlassian-jira/WEB-INF/application-installation/jira-software-application/team-management-plugin*.jar
+RUN rm -rf jira/atlassian-jira/WEB-INF/application-installation/jira-software-application/jira-software-application*.jar
+RUN rm -rf jira/atlassian-jira/WEB-INF/application-installation/jira-software-application/jira-software-language-pack*.jar
 RUN rm -rf jira/atlassian-jira/WEB-INF/application-installation/jira-software-application/querydsl*.jar
 
 
