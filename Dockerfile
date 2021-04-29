@@ -34,7 +34,7 @@ FROM storezhang/atlassian
 
 
 MAINTAINER storezhang "storezhang@gmail.com"
-LABEL architecture="AMD64/x86_64" version="latest" build="2021-04-28"
+LABEL architecture="AMD64/x86_64" version="latest" build="2021-04-29"
 LABEL Description="Atlassian公司产品Jira，一个非常好的敏捷开发系统。在原来的基础上增加了MySQL/MariaDB驱动以及太了解程序。"
 
 
