@@ -29,6 +29,7 @@ CATALINA_OPTS="${CATALINA_OPTS} -Djira.home=${JIRA_HOME}"
 # 将默认的数据库配置文件移动到主目录
 dbConfigFile=${JIRA_HOME}/dbconfig.xml
 if [ ! -f "${dbConfigFile}" ]; then
+  dbType="${DB_TYPE}"
   dbUser="${DB_USER}"
   dbPassword="${DB_PASSWORD}"
   if [ "${DB_TYPE}" = "mysql5" ]; then
@@ -45,7 +46,7 @@ if [ ! -f "${dbConfigFile}" ]; then
 <jira-database-config>
   <name>defaultDS</name>
   <delegator-name>default</delegator-name>
-  <database-type>mysql8</database-type>
+  <database-type>${dbType}</database-type>
   <jdbc-datasource>
     <url>${dbUrl}</url>
     <driver-class>${dbDriver}</driver-class>
