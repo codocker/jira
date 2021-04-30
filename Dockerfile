@@ -17,12 +17,6 @@ RUN mv atlassian-jira-software-${VERSION}-standalone jira
 
 # 删除不需要的文件
 RUN rm -rf jira/bin/*.bat
-RUN rm -rf jira/atlassian-jira/WEB-INF/atlassian-bundled-plugins/jira-migration-plugin*.jar
-RUN rm -rf jira/atlassian-jira/WEB-INF/application-installation/jira-software-application/*portfolio*.jar
-RUN rm -rf jira/atlassian-jira/WEB-INF/application-installation/jira-software-application/team-management-plugin*.jar
-RUN rm -rf jira/atlassian-jira/WEB-INF/application-installation/jira-software-application/jira-software-application*.jar
-RUN rm -rf jira/atlassian-jira/WEB-INF/application-installation/jira-software-application/jira-software-language-pack*.jar
-RUN rm -rf jira/atlassian-jira/WEB-INF/application-installation/jira-software-application/querydsl*.jar
 
 
 
@@ -31,20 +25,9 @@ RUN rm -rf jira/atlassian-jira/WEB-INF/application-installation/jira-software-ap
 # 打包真正的镜像
 FROM storezhang/atlassian
 
-
-
 MAINTAINER storezhang "storezhang@gmail.com"
 LABEL architecture="AMD64/x86_64" version="latest" build="2021-04-29"
 LABEL Description="Atlassian公司产品Jira，一个非常好的敏捷开发系统。在原来的基础上增加了MySQL/MariaDB驱动以及太了解程序。"
-
-
-
-# 设置Jira主目录
-ENV JIRA_HOME /config
-ENV CATALINA_TMPDIR ${JIRA_HOME}/tmp
-ENV CATALINA_OUT ${JIRA_HOME}/log/catalina.out
-ENV CATALINA_OUT_CMD "cronolog ${JIRA_HOME}/log/catalina.%Y-%m-%d.out"
-ENV CATALINA_OPTS ""
 
 
 
@@ -81,3 +64,12 @@ RUN set -ex \
     # 清理镜像，减少无用包
     && rm -rf /var/lib/apt/lists/* \
     && apt autoclean
+
+
+
+# 设置Jira主目录
+ENV JIRA_HOME /config
+ENV CATALINA_TMPDIR ${JIRA_HOME}/tmp
+ENV CATALINA_OUT ${JIRA_HOME}/log/catalina.out
+ENV CATALINA_OUT_CMD "cronolog ${JIRA_HOME}/log/catalina.%Y-%m-%d.out"
+ENV CATALINA_OPTS ""
