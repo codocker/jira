@@ -10,7 +10,7 @@ WORKDIR /opt/atlassian
 
 RUN apt update && apt install -y axel
 
-# 安装Bitbucket
+# 下载Jira安装包
 RUN axel --num-connections 64 --insecure --output jira${VERSION}.tar.gz "https://product-downloads.atlassian.com/software/jira/downloads/atlassian-jira-software-${VERSION}.tar.gz"
 RUN tar -xzf jira${VERSION}.tar.gz
 RUN mv atlassian-jira-software-${VERSION}-standalone jira
@@ -51,7 +51,10 @@ RUN set -ex \
     && apt update -y \
     && apt upgrade -y \
     && apt install cronolog -y \
-    # 安装JIRA并增加执行权限
+    \
+    \
+    \
+    # 安装Jira并增加执行权限
     && chmod +x /etc/s6/jira/* \
     \
     \

@@ -6,6 +6,8 @@ if [ ! -d "${JIRA_HOME}" ]; then
 
   # 创建工作目录
   gosu "${USERNAME}" mkdir "${JIRA_HOME}/work"
+  # 创建日志目录
+  gosu "${USERNAME}" mkdir "${JIRA_HOME}/log"
 fi
 
 
