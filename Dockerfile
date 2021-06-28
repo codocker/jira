@@ -2,7 +2,7 @@ FROM ubuntu AS builder
 
 
 # 版本
-ENV VERSION 8.16.1
+ENV VERSION 8.16.2
 
 
 WORKDIR /opt/atlassian
@@ -26,8 +26,8 @@ RUN rm -rf jira/bin/*.bat
 FROM storezhang/atlassian
 
 MAINTAINER storezhang "storezhang@gmail.com"
-LABEL architecture="AMD64/x86_64" version="latest" build="2021-05-07"
-LABEL Description="Atlassian公司产品Jira，一个非常好的敏捷开发系统。在原来的基础上增加了MySQL/MariaDB驱动以及破解解程序。"
+LABEL architecture="AMD64/x86_64" version="latest" build="2021-06-28"
+LABEL Description="Atlassian公司产品Jira，一个非常好的敏捷开发系统。在原来的基础上增加了MySQL/MariaDB驱动以及破解解程序"
 
 
 
