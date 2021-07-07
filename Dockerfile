@@ -2,7 +2,7 @@ FROM ubuntu AS builder
 
 
 # 版本
-ENV VERSION 8.5.16
+ENV VERSION 8.13.8
 
 
 WORKDIR /opt/atlassian
