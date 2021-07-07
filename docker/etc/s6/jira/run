@@ -3,9 +3,8 @@
 # 配置
 source ./setup
 
-# 允许降级
-JVM_SUPPORT_RECOMMENDED_ARGS="${JVM_SUPPORT_RECOMMENDED_ARGS} -Djira.downgrade.allowed=true"
 # 启动Jira服务器
-JAVA_OPTS="${JAVA_OPTS} -javaagent:/opt/atlassian/agent/agent.jar"
+# 允许降级
+JAVA_OPTS="${JAVA_OPTS} -javaagent:/opt/atlassian/agent/agent.jar -Djira.downgrade.allowed=true"
 
 sleep "${DELAY}" && exec gosu "${USERNAME}" /opt/atlassian/jira/bin/start-jira.sh -fg
