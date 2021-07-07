@@ -34,9 +34,9 @@ if [ ! -f "${dbConfigFile}" ]; then
   dbType="${DB_TYPE}"
   dbUser="${DB_USER}"
   dbPassword="${DB_PASSWORD}"
-  if [ "${DB_TYPE}" = "mysql5" ]; then
+  if [ "${DB_TYPE}" = "mysql57" ]; then
     dbDriver="com.mysql.jdbc.Driver"
-    dbUrl="jdbc:mysql://address=(protocol=tcp)(host=${DB_HOST})(port=${DB_PORT})/${DB_NAME}?sessionVariables=default_storage_engine=InnoDB"
+    dbUrl="jdbc:mysql://${DB_HOST}:${DB_PORT})/${DB_NAME}?useUnicode=true&amp;characterEncoding=UTF8&amp;sessionVariables=default_storage_engine=InnoDB"
   elif [ "${DB_TYPE}" = "mysql8" ]; then
     dbDriver="com.mysql.cj.jdbc.Driver"
     dbUrl="jdbc:mysql://address=(protocol=tcp)(host=${DB_HOST})(port=${DB_PORT})/${DB_NAME}?sessionVariables=default_storage_engine=InnoDB&amp;useSSL=false"
