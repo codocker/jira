@@ -76,3 +76,6 @@ ENV CATALINA_TMPDIR ${JIRA_HOME}/tmp
 ENV CATALINA_OUT ${JIRA_HOME}/log/catalina.out
 ENV CATALINA_OUT_CMD "cronolog ${JIRA_HOME}/log/catalina.%Y-%m-%d.out"
 ENV CATALINA_OPTS ""
+
+# 健康检查
+HEALTHCHECK --interval=15s --timeout=5s --retries=3 --start-period=1m CMD curl -ifs http://127.0.0.1:8080 || exit 1
