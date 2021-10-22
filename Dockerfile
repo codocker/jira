@@ -1,4 +1,4 @@
-FROM ubuntu AS builder
+FROM storezhang/alpine AS builder
 
 
 # 版本
@@ -8,7 +8,8 @@ ENV VERSION 8.5.16
 WORKDIR /opt/atlassian
 
 
-RUN apt update && apt install -y axel
+RUN apk update
+RUN apk add axel
 
 # 下载Jira安装包
 RUN axel --num-connections 64 --insecure --output jira${VERSION}.tar.gz "https://product-downloads.atlassian.com/software/jira/downloads/atlassian-jira-software-${VERSION}.tar.gz"
@@ -26,7 +27,7 @@ RUN rm -rf jira/bin/*.bat
 FROM storezhang/atlassian
 
 MAINTAINER storezhang "storezhang@gmail.com"
-LABEL architecture="AMD64/x86_64" version="latest" build="2021-10-21"
+LABEL architecture="AMD64/x86_64" version="latest" build="2021-10-22"
 LABEL Description="Atlassian公司产品Jira，一个非常好的敏捷开发系统。在原来的基础上增加了MySQL/MariaDB驱动以及破解解程序"
 
 
@@ -74,3 +75,4 @@ ENV CATALINA_TMPDIR ${JIRA_HOME}/tmp
 ENV CATALINA_OUT ${JIRA_HOME}/log/catalina.out
 ENV CATALINA_OUT_CMD "logrotate ${JIRA_HOME}/log/catalina.%Y-%m-%d.out"
 ENV CATALINA_OPTS ""
+ENV LOG_EXPIRED_DAYS 30
