@@ -26,7 +26,7 @@ RUN rm -rf jira/bin/*.bat
 FROM storezhang/atlassian
 
 MAINTAINER storezhang "storezhang@gmail.com"
-LABEL architecture="AMD64/x86_64" version="latest" build="2021-06-28"
+LABEL architecture="AMD64/x86_64" version="latest" build="2021-10-22"
 LABEL Description="Atlassian公司产品Jira，一个非常好的敏捷开发系统。在原来的基础上增加了MySQL/MariaDB驱动以及破解解程序"
 
 
@@ -48,9 +48,8 @@ RUN set -ex \
     \
     \
     # 安装cronolog，转接catalina.out日志到Jira主目录
-    && apt update -y \
-    && apt upgrade -y \
-    && apt install cronolog -y \
+    && apk update \
+    && apk --no-cache add cronolog \
     \
     \
     \
@@ -65,8 +64,7 @@ RUN set -ex \
     \
     \
     # 清理镜像，减少无用包
-    && rm -rf /var/lib/apt/lists/* \
-    && apt autoclean
+    && rm -rf /var/cache/apk/*
 
 
 
@@ -76,6 +74,3 @@ ENV CATALINA_TMPDIR ${JIRA_HOME}/tmp
 ENV CATALINA_OUT ${JIRA_HOME}/log/catalina.out
 ENV CATALINA_OUT_CMD "cronolog ${JIRA_HOME}/log/catalina.%Y-%m-%d.out"
 ENV CATALINA_OPTS ""
-
-# 健康检查
-HEALTHCHECK --interval=15s --timeout=5s --retries=3 --start-period=1m CMD curl -ifs http://127.0.0.1:8080 || exit 1
