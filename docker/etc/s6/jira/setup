@@ -87,5 +87,7 @@ if [ "${SET_PERMISSIONS}" = true ] && [ ! -f "${permissionFile}" ]; then
   fi
 fi
 
+
+
 # 删除多余的日志文件
 find "${JIRA_HOME}"/log -mtime +"${LOG_EXPIRED_DAYS}" -delete
