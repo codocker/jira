@@ -47,9 +47,9 @@ RUN set -ex \
     \
     \
     \
-    # 安装cronolog，转接catalina.out日志到Jira主目录
+    # 安装logrotate，转接catalina.out日志到Jira主目录
     && apk update \
-    && apk --no-cache add cronolog \
+    && apk --no-cache add logrotate \
     \
     \
     \
@@ -72,5 +72,5 @@ RUN set -ex \
 ENV JIRA_HOME /config
 ENV CATALINA_TMPDIR ${JIRA_HOME}/tmp
 ENV CATALINA_OUT ${JIRA_HOME}/log/catalina.out
-ENV CATALINA_OUT_CMD "cronolog ${JIRA_HOME}/log/catalina.%Y-%m-%d.out"
+ENV CATALINA_OUT_CMD "logrotate ${JIRA_HOME}/log/catalina.%Y-%m-%d.out"
 ENV CATALINA_OPTS ""
