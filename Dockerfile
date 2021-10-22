@@ -1,4 +1,4 @@
-FROM storezhang/alpine AS builder
+FROM ubuntu AS builder
 
 
 # 版本
@@ -8,8 +8,8 @@ ENV VERSION 8.5.16
 WORKDIR /opt/atlassian
 
 
-RUN apk update
-RUN apk add axel
+RUN apt update -y
+RUN apt install axel -y
 
 # 下载Jira安装包
 RUN axel --num-connections 64 --insecure --output jira${VERSION}.tar.gz "https://product-downloads.atlassian.com/software/jira/downloads/atlassian-jira-software-${VERSION}.tar.gz"
@@ -48,9 +48,10 @@ RUN set -ex \
     \
     \
     \
-    # 安装logrotate，转接catalina.out日志到Jira主目录
-    && apk update \
-    && apk --no-cache add logrotate \
+    # 安装cronolog，转接catalina.out日志到Jira主目录
+    && apt update -y \
+    && apt upgrade -y \
+    && apt install cronolog -y \
     \
     \
     \
@@ -65,7 +66,8 @@ RUN set -ex \
     \
     \
     # 清理镜像，减少无用包
-    && rm -rf /var/cache/apk/*
+    && rm -rf /var/lib/apt/lists/* \
+    && apt autoclean
 
 
 
@@ -73,6 +75,5 @@ RUN set -ex \
 ENV JIRA_HOME /config
 ENV CATALINA_TMPDIR ${JIRA_HOME}/tmp
 ENV CATALINA_OUT ${JIRA_HOME}/log/catalina.out
-ENV CATALINA_OUT_CMD "logrotate ${JIRA_HOME}/log/catalina.%Y-%m-%d.out"
+ENV CATALINA_OUT_CMD "cronolog ${JIRA_HOME}/log/catalina.%Y-%m-%d.out"
 ENV CATALINA_OPTS ""
-ENV LOG_EXPIRED_DAYS 30
