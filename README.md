@@ -1,8 +1,8 @@
 # docker-jira
 
-基于最新版本的Atlassian Jira版本打包的Docker镜像功能有
-- 集成了MySQL/MariaDB驱动
-- 最新可用的Agent程序
+基于最新版本的`Atlassian Jira`版本打包的`Docker`镜像功能有
+- 集成了`MySQL`/`MariaDB`驱动
+- 最新可用的`Agent`程序
 - 集成健康检查
 
 ## 使用方法
