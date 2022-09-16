@@ -1,8 +1,8 @@
-FROM ubuntu AS builder
+FROM ccr.ccs.tencentyun.com/storezhang/ubuntu:22.10.2 AS jira
 
 
 # 版本
-ENV VERSION 8.5.16
+ENV VERSION 9.2.0
 
 
 WORKDIR /opt/atlassian
@@ -24,11 +24,14 @@ RUN rm -rf jira/bin/*.bat
 
 
 # 打包真正的镜像
-FROM storezhang/atlassian
+FROM ccr.ccs.tencentyun.com/storezhang/atlassian
 
-MAINTAINER storezhang "storezhang@gmail.com"
-LABEL architecture="AMD64/x86_64" version="latest" build="2021-10-23"
-LABEL Description="Atlassian公司产品Jira，一个非常好的敏捷开发系统。在原来的基础上增加了MySQL/MariaDB驱动以及破解解程序"
+
+LABEL author="storezhang<华寅>"
+LABEL email="storezhang@gmail.com"
+LABEL qq="160290688"
+LABEL wechat="storezhang"
+LABEL description="Atlassian公司产品Jira，一个非常好的敏捷开发系统。在原来的基础上增加了MySQL/MariaDB驱动以及破解解程序"
 
 
 
@@ -39,7 +42,7 @@ EXPOSE 8080
 
 
 # 复制文件
-COPY --from=builder /opt/atlassian/jira /opt/atlassian/jira
+COPY --from=jira /opt/atlassian/jira /opt/atlassian/jira
 COPY docker /
 
 
