@@ -24,9 +24,7 @@ steps:
         from_secret: password_tencentyun_ccr
     settings:
       repository: storezhang/jira
-      tags:
-        - latest
-        - 9.2.0
+      tag: 9.2.0
       registries:
         - username: storezhang
           password: $${PASSWORD_DOCKER}
