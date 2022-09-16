@@ -1,4 +1,4 @@
-FROM ccr.ccs.tencentyun.com/storezhang/ubuntu:22.10.2 AS jira
+FROM ccr.ccs.tencentyun.com/storezhang/ubuntu:22.10.3 AS jira
 
 
 # 版本
