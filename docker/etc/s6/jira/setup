@@ -1,24 +1,29 @@
 #!/bin/sh
 
-# 创建主目录
+echo "创建主目录"
 if [ ! -d "${JIRA_HOME}" ]; then
   gosu "${USERNAME}" mkdir "${JIRA_HOME}"
+fi
 
-  # 创建工作目录
+echo "创建工作目录"
+if [ ! -d "${JIRA_HOME}/work" ]; then
   gosu "${USERNAME}" mkdir "${JIRA_HOME}/work"
-  # 创建日志目录
+fi
+
+echo "创建日志目录"
+if [ ! -d "${JIRA_HOME}/log" ]; then
   gosu "${USERNAME}" mkdir "${JIRA_HOME}/log"
 fi
 
 
-# 判断是否是安全连接
+echo "判断是否是安全连接"
 if [ "${PROXY_SCHEME}" = "https" ] || [ "${PROXY_SCHEME}" = "HTTPS" ] || [ "${PROXY_SCHEME}" = "Https" ]; then
   export secure="true"
 else
   export secure="false"
 fi
 
-# 注入反代参数以及日志主目录
+echo "注入反向代理参数以及日志主目录"
 CATALINA_OPTS="${CATALINA_OPTS} -Dproxy.name=${PROXY_DOMAIN}"
 CATALINA_OPTS="${CATALINA_OPTS} -Dproxy.port=${PROXY_PORT}"
 CATALINA_OPTS="${CATALINA_OPTS} -Dproxy.secure=${secure}"
@@ -27,8 +32,7 @@ CATALINA_OPTS="${CATALINA_OPTS} -Dcontext.path=${CONTEXT_PATH}"
 CATALINA_OPTS="${CATALINA_OPTS} -Djira.home=${JIRA_HOME}"
 
 
-
-# 将默认的数据库配置文件移动到主目录
+echo "将默认的数据库配置文件移动到主目录"
 dbConfigFile=${JIRA_HOME}/dbconfig.xml
 if [ ! -f "${dbConfigFile}" ]; then
   dbType="${DB_TYPE}"
@@ -74,7 +78,7 @@ fi
 
 
 
-# 将主目录所有者改成系统创建的用户
+echo "将主目录所有者改成系统创建的用户"
 permissionFile=${JIRA_HOME}/.permission.lock
 if [ "${SET_PERMISSIONS}" = true ] && [ ! -f "${permissionFile}" ]; then
   chown -R "${USERNAME}":"${USERNAME}" "${JIRA_HOME}"
@@ -88,6 +92,5 @@ if [ "${SET_PERMISSIONS}" = true ] && [ ! -f "${permissionFile}" ]; then
 fi
 
 
-
-# 删除多余的日志文件
+echo "删除多余的日志文件"
 find "${JIRA_HOME}"/log -mtime +"${LOG_EXPIRED_DAYS}" -delete
