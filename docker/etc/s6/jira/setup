@@ -93,4 +93,4 @@ fi
 
 
 echo "删除多余的日志文件"
-find "${JIRA_HOME}"/log -mtime +"${LOG_EXPIRED_DAYS}" -delete
+find "${JIRA_HOME}"/log -mtime +"${LOG_EXPIRED_DAYS}" -name "*.*" -exec rm -rf {} \
