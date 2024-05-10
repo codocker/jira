@@ -4,7 +4,7 @@ FROM haxqer/jira:9.14.1 AS jira
 RUN rm -rf jira/bin/*.bat
 
 
-FROM ccr.ccs.tencentyun.com/storezhang/ubuntu:23.04.17 AS builder
+FROM ccr.ccs.tencentyun.com/storezhang/ubuntu:24.04.24 AS builder
 
 # 复制所需要的文件
 COPY --from=jira /opt/jira /docker/opt/atlassian/jira
