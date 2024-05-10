@@ -14,7 +14,7 @@ COPY docker /docker
 
 
 # 打包真正的镜像
-FROM ccr.ccs.tencentyun.com/storezhang/atlassian:0.0.18
+FROM ccr.ccs.tencentyun.com/storezhang/atlassian:0.0.21
 
 
 LABEL author="storezhang<华寅>" \
