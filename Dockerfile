@@ -1,4 +1,4 @@
-FROM haxqer/jira:9.14.1 AS jira
+FROM haxqer/jira:9.16.1 AS jira
 
 # 删除不需要的文件
 RUN rm -rf jira/bin/*.bat
